@@ -2,10 +2,10 @@ package com.picpay.desafio.userlist.data.dao
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.picpay.desafio.userlist.domain.model.User
+import com.picpay.desafio.userlist.data.model.UserEntity
 
 @Database(
-    entities = [User::class],
+    entities = [UserEntity::class],
     version = 1,
     exportSchema = false
 )

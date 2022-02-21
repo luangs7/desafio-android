@@ -1,17 +1,15 @@
 package com.picpay.desafio.userlist.utils
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.pm.ActivityInfo
 import android.view.View
+import android.view.ViewGroup
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.matcher.ViewMatchers.isRoot
 import org.hamcrest.Matcher
-import android.content.pm.ActivityInfo
-import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
-import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
-import android.view.ViewGroup
-import androidx.test.runner.lifecycle.Stage
 
 class OrientationChangeAction(private val orientation: Int) : ViewAction {
 

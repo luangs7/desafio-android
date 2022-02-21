@@ -31,7 +31,7 @@ ext {
                             androidxRunner  : "1.1.1",
                             androidxRules   : "1.1.0",
                             androidxEspresso: "3.3.0",
-                            androidxCore    : "1.2.0",
+                            androidxCore    : "1.4.0",
                             mockitoKotlin   : "2.27.0",
                             coreTesting     : "2.0.1",
                             junitExt        : "1.1.2",

@@ -1,22 +1,17 @@
 package com.picpay.desafio.userlist.data.respository
 
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListUpdateCallback
+
 import com.picpay.desafio.common.base.Resource
 import com.picpay.desafio.userlist.data.dao.UserListDao
+import com.picpay.desafio.userlist.data.model.UserEntity
+import com.picpay.desafio.userlist.data.model.toDomain
+import com.picpay.desafio.userlist.data.model.toEntity
 import com.picpay.desafio.userlist.data.service.PicPayService
 import com.picpay.desafio.userlist.domain.model.User
 import com.picpay.desafio.userlist.domain.repository.UserListRepository
-import com.picpay.desafio.userlist.presentation.adapter.UserListDiffCallback
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.launch
-import retrofit2.awaitResponse
+import kotlinx.coroutines.flow.*
 import java.security.InvalidParameterException
 
 @DelicateCoroutinesApi
@@ -25,30 +20,42 @@ class UserListRepositoryImpl(
     private val dao: UserListDao
 ) : UserListRepository {
 
-    override suspend fun getListFromServer(): Flow<Resource<List<User>>> = flow {
+    override suspend fun getList(): Flow<Resource<List<User>>> = flow {
+        getListFromServer()
+            .onStart { this@flow.emit(Resource.Loading) }
+            .catch {
+                getListFromDatabase()
+                    .catch { this@flow.emit(Resource.Error<List<User>>(it)) }
+                    .collect { this@flow.emit(it) }
+            }
+            .collect {
+                this@flow.emit(it)
+            }
+    }
+
+    private suspend fun getListFromServer(): Flow<Resource<List<User>>> = flow {
         val response = service.getUsers()
         if (response.isSuccessful) {
             response.body()?.let { newList ->
-                emit(Resource.success(newList))
+                saveList(newList.map { it.toEntity() })
+                emit(Resource.Success(newList.map { it.toDomain() }))
             } ?: throw InvalidParameterException()
         } else {
             throw InvalidParameterException()
         }
-    }
+    }.flowOn(Dispatchers.IO)
 
-    override suspend fun getListFromDatabase(): Flow<Resource<List<User>>> = flow {
+    private suspend fun getListFromDatabase(): Flow<Resource<List<User>>> = flow {
         dao.getList().collect {
             if (it.isNotEmpty()) {
-                emit(Resource.success(it))
+                emit(Resource.Success(it.map { list -> list.toDomain() }))
             } else {
-                emit(Resource.empty<List<User>>())
+                emit(Resource.Empty)
             }
         }
     }.flowOn(Dispatchers.IO)
 
-    override suspend fun saveListFromServer(newList: List<User>) {
-        GlobalScope.launch(Dispatchers.IO) {
-            dao.saveList(newList)
-        }
+    private fun saveList(newList: List<UserEntity>) {
+        dao.saveList(newList)
     }
 }

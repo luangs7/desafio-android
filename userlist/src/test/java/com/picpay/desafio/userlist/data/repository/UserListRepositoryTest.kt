@@ -2,7 +2,6 @@ package com.picpay.desafio.userlist.data.repository
 
 import android.content.Context
 import com.picpay.desafio.common.base.Resource
-import com.picpay.desafio.common.extensions.isError
 import com.picpay.desafio.userlist.data.dao.UserListDao
 import com.picpay.desafio.userlist.data.respository.UserListRepositoryImpl
 import com.picpay.desafio.userlist.data.service.PicPayService
@@ -15,8 +14,6 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert
 import org.junit.Rule

@@ -19,7 +19,6 @@ import org.junit.Test
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 import org.koin.test.AutoCloseKoinTest
-import org.koin.test.get
 import java.security.InvalidParameterException
 
 

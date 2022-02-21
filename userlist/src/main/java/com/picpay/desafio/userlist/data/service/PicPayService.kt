@@ -1,7 +1,6 @@
 package com.picpay.desafio.userlist.data.service
 
-import com.picpay.desafio.userlist.domain.model.User
-import retrofit2.Call
+import com.picpay.desafio.userlist.data.model.UserResponse
 import retrofit2.Response
 import retrofit2.http.GET
 
@@ -9,5 +8,5 @@ import retrofit2.http.GET
 interface PicPayService {
 
     @GET("users")
-    suspend fun getUsers(): Response<List<User>>
+    suspend fun getUsers(): Response<List<UserResponse>>
 }

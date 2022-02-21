@@ -1,14 +1,8 @@
 package com.picpay.desafio.userlist.presentation
 
-import android.content.Context
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.Observer
 import com.jraska.livedata.test
 import com.picpay.desafio.common.base.Resource
-import com.picpay.desafio.common.extensions.isError
-import com.picpay.desafio.common.extensions.isSuccess
-import com.picpay.desafio.userlist.di.UserListModule
-import com.picpay.desafio.userlist.domain.model.User
 import com.picpay.desafio.userlist.domain.usecase.GetUserListUseCase
 import com.picpay.desafio.userlist.presentation.viewmodel.UserListViewModel
 import com.picpay.desafio.userlist.utils.CoroutinesTestRule
@@ -19,8 +13,6 @@ import com.picpay.desafio.userlist.utils.DataHelper.flowResponseSuccess
 import io.mockk.*
 import org.junit.Rule
 import org.junit.Test
-import org.koin.android.ext.koin.androidContext
-import org.koin.core.context.startKoin
 import org.koin.test.AutoCloseKoinTest
 
 class UserListViewModelTest : AutoCloseKoinTest() {

@@ -1,7 +1,6 @@
 package com.picpay.desafio.userlist.mainactivity
 
 import com.picpay.desafio.userlist.utils.BaseInstrumentedTest
-import org.junit.After
 import org.junit.Test
 
 
